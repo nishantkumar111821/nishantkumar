@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spend $100 Billion</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #222;
+        }
+        
+        .money-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #27ae60;
+        }
+        
+        .items-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .item {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        
+        .item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .item-price {
+            font-size: 1.1rem;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        
+        .item-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity {
+            margin: 0 10px;
+            font-size: 1.1rem;
+        }
+        
+        .total-spent {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.2rem;
+        }
+        
+        .reset-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .purchased-items {
+            margin-top: 40px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .purchased-items h2 {
+            margin-top: 0;
+        }
+        
+        .purchased-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        @media (max-width: 600px) {
+            .items-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .money-display {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Spend $100 Billion</h1>
+            <div class="money-display" id="money">$100,000,000,000</div>
+            <p>How would you spend a fortune?</p>
+        </header>
+        
+        <div class="items-container" id="items-container">
+            <!-- Items will be added here by JavaScript -->
+        </div>
+        
+        <div class="total-spent">
+            Total spent: <span id="total-spent">$0</span>
+        </div>
+        
+        <button class="reset-btn" id="reset-btn">Reset</button>
+        
+        <div class="purchased-items">
+            <h2>Your Purchases</h2>
+            <div id="purchased-items-list">
+                <!-- Purchased items will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game data
+        const items = [
+            {
+                name: "Private Island",
+                price: 150000000,
+                image: "https://images.unsplash.com/photo-1545579133-99bb5ab189bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                name: "Superyacht",
+                price: 500000000,
+                image: "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                name: "NBA Team",
+                price: 2500000000,
+                image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                name: "Luxury Mansion",
+                price: 100000000,
+                image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                name: "Ferrari Collection",
+                price: 10000000,
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                name: "Private Jet",
+                price: 80000000,
+                image: "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                name: "Monaco Penthouse",
+                price: 300000000,
+                image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                name: "Space Flight",
+                price: 50000000,
+                image: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+            }
+        ];
+
+        // Game state
+        let money = 100000000000;
+        let totalSpent = 0;
+        let purchasedItems = {};
+        
+        // DOM elements
+        const moneyElement = document.getElementById('money');
+        const itemsContainer = document.getElementById('items-container');
+        const totalSpentElement = document.getElementById('total-spent');
+        const purchasedItemsList = document.getElementById('purchased-items-list');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        // Format currency
+        function formatCurrency(amount) {
+            return '$' + amount.toLocaleString();
+        }
+        
+        // Update money display
+        function updateMoney() {
+            moneyElement.textContent = formatCurrency(money);
+        }
+        
+        // Update total spent display
+        function updateTotalSpent() {
+            totalSpentElement.textContent = formatCurrency(totalSpent);
+        }
+        
+        // Update purchased items list
+        function updatePurchasedItems() {
+            purchasedItemsList.innerHTML = '';
+            
+            if (Object.keys(purchasedItems).length === 0) {
+                purchasedItemsList.innerHTML = '<p>You haven\'t purchased anything yet.</p>';
+                return;
+            }
+            
+            for (const [name, details] of Object.entries(purchasedItems)) {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'purchased-item';
+                itemElement.innerHTML = `
+                    <span>${name} (${details.quantity})</span>
+                    <span>${formatCurrency(details.total)}</span>
+                `;
+                purchasedItemsList.appendChild(itemElement);
+            }
+        }
+        
+        // Buy item function
+        function buyItem(item) {
+            if (money >= item.price) {
+                money -= item.price;
+                totalSpent += item.price;
+                
+                if (purchasedItems[item.name]) {
+                    purchasedItems[item.name].quantity++;
+                    purchasedItems[item.name].total += item.price;
+                } else {
+                    purchasedItems[item.name] = {
+                        quantity: 1,
+                        total: item.price
+                    };
+                }
+                
+                updateMoney();
+                updateTotalSpent();
+                updatePurchasedItems();
+            } else {
+                alert("Not enough money!");
+            }
+        }
+        
+        // Initialize the game
+        function initGame() {
+            // Create item cards
+            items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="item-image">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-price">${formatCurrency(item.price)}</div>
+                    <button class="quantity-btn" onclick="buyItem(${JSON.stringify(item).replace(/"/g, '&quot;')})">+</button>
+                `;
+                itemsContainer.appendChild(itemElement);
+            });
+            
+            updateMoney();
+            updateTotalSpent();
+            updatePurchasedItems();
+        }
+        
+        // Reset game
+        resetBtn.addEventListener('click', () => {
+            money = 100000000000;
+            totalSpent = 0;
+            purchasedItems = {};
+            updateMoney();
+            updateTotalSpent();
+            updatePurchasedItems();
+        });
+        
+        // Start the game
+        initGame();
+    </script>
+</body>
+</html>
